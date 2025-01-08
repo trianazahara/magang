@@ -1,9 +1,9 @@
 // controllers/adminController.js
 const db = require('../config/database');
 
-const adminController = {
-    // Method untuk dashboard stats
-    getDashboardStats: async (req, res) => {
+// const adminController = {
+
+exports.getDashboardStats = async (req, res) => {
         try {
             const [activeInterns] = await db.execute(
                 'SELECT COUNT(*) as count FROM intern WHERE status = "aktif"'
@@ -19,6 +19,7 @@ const adminController = {
             
             // Render view daripada mengirim JSON
             res.render('dashboard', {
+                // path: '/dashboard',
                 activeInterns: activeInterns[0].count,
                 completedInterns: completedInterns[0].count,
                 totalInterns: activeInterns[0].count + completedInterns[0].count,
@@ -28,9 +29,9 @@ const adminController = {
             console.error('Error mengambil data dashboard:', error);
             res.status(500).render('error', { message: 'Terjadi kesalahan server' });
         }
-    }
+    };
 
     // Tambahkan method admin lainnya di sini jika diperlukan
-};
+// };
 
-module.exports = adminController;
+// module.exports = adminController;
