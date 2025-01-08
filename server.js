@@ -6,6 +6,10 @@ const cors = require('cors');
 const app = express();
 
 // Middleware
+app.use((req, res, next) => {
+    res.locals.path = req.path; // Ini akan tersedia di semua view
+    next();
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
@@ -29,12 +33,13 @@ const adminRoutes = require('./routes/admin');
 
 // Default route
 app.get('/', (req, res) => {
-    res.redirect('/dashboard');
+    res.redirect('/auth/login');
 });
 
 // Route registration
 app.use('/auth', authRoutes);
 app.use('/dashboard', adminRoutes);
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
