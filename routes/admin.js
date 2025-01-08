@@ -5,6 +5,6 @@ const adminController = require('../controllers/adminController');
 const authMiddleware = require('../middleware/auth');
 
 // Route untuk dashboard
-router.get('/', authMiddleware.authenticateToken, adminController.getDashboardStats);
+router.get('/dashboard', authMiddleware.authenticateToken, adminController.getDashboardStats);
 
 module.exports = router;
