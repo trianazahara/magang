@@ -5,13 +5,15 @@ const path = require('path');
 const cors = require('cors');
 const app = express();
 
-
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.static('public'));
+
+// View engine setup
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 // Session configuration
 app.use(session({
@@ -23,16 +25,16 @@ app.use(session({
 
 // Routes
 const authRoutes = require('./routes/auth');
-// const internRoutes = require('./routes/intern');
 const adminRoutes = require('./routes/admin');
-// const profileRoutes = require('./routes/profile');
-//const indexRouter = require('./routes/index');
 
+// Default route
+app.get('/', (req, res) => {
+    res.redirect('/dashboard');
+});
+
+// Route registration
 app.use('/auth', authRoutes);
-// app.use('/intern', internRoutes);
-app.use('/', adminRoutes);
-// app.use('/profile', profileRoutes);
-// app.use('/', indexRouter);
+app.use('/dashboard', adminRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
